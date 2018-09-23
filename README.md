@@ -1,3 +1,15 @@
 # DividendableToken
 Dividendable ERC20 Token
- Token is designed to reduced cost of gas of transfer and transferFrom methods in case of dividend payment.
+ Token is designed to reduced gas costs of transfer and transferFrom methods in case of dividend payment.
+
+ 1. Run tests
+ ```
+ truffle develop 
+ ```
+ in new console window 
+ ```
+ truffle test .\test\baseFunctions.test.js --network local
+ truffle test .\test\costs.test.js --network local
+ truffle test .\test\transfers.test.js --network local
+truffle test .\test\transfersFrom.test.js --network local
+ ```
