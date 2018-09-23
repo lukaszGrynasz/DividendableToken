@@ -3,6 +3,7 @@ Dividendable ERC20 Token is designed to reduced gas costs of transfer and transf
 
 1. Run tests
 ```
+npm install
 truffle develop 
 ```
 in new console window 
