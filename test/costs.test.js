@@ -39,6 +39,24 @@ const should = require('chai')
               
             });
 
+            it('show transferFrom cost without dividend', async function () {
+                await data.token.approve(accounts[1], ether(1000));
+                var tx = await data.token.transferFrom(accounts[0], accounts[2], ether(1000), {from:accounts[1]});
+
+                console.log("TransferFrom without dividend gas used : "+ tx.receipt.gasUsed);
+              
+            });
+
+            it('show transferFrom cost with dividend', async function () {
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.addDividend(ether(10000));
+
+                var tx = await data.token.transferFrom(accounts[0], accounts[2], ether(1000), {from:accounts[1]});
+
+                console.log("TransferFrom with dividend gas used : "+ tx.receipt.gasUsed);
+              
+            });
+
           });    
         
   });
