@@ -82,6 +82,14 @@ const should = require('chai')
                 lastDividendAmount.should.be.bignumber.equal(ether(10000));
                 
             });
+
+            it('should not allow to add second dividiend before dividend timespan', async function () {
+                data.token = await TokenMock.new(24*60*60); //one day
+
+                await data.token.addDividend(ether(10000));
+                await data.token.addDividend(ether(10000)).should.be.rejectedWith(EVMRevert);
+                
+            });
            
           });    
         
