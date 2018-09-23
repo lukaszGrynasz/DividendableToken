@@ -50,7 +50,7 @@ contract DividendableToken is BaseDividendableToken {
         //set data for msg.sender
         uint balance = balanceOf(msg.sender);
         var (dividendForSender, lastDividendSender ) = calculateDividend(msg.sender);
-        setAccount(msg.sender,balance.sub(_value).add(dividendForSender),lastDividendSender);
+        setAccount(msg.sender,balance.add(dividendForSender),lastDividendSender);
 
         //set data for _to
         balance = balanceOf(_to);

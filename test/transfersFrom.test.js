@@ -69,6 +69,21 @@ const should = require('chai')
                 console.log(`allowance : ${allowance.toString(10)} allowanceAfter ${allowanceAfter.toString(10)}`);
                 allowance.should.be.bignumber.equal(allowanceAfter.plus(ether(1000)));
             });
+
+            it('should distribute dividiend to initiator', async function () {
+
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.addDividend(ether(10000));
+
+                var balanceOfAcc1 = await data.token.balanceOf(accounts[1]);
+                var dividend = await data.token.calculateDividend(accounts[1]);
+           
+                await data.token.transferFrom(accounts[0], accounts[2], ether(1000), {from:accounts[1]});
+
+                var balanceOfAcc1After = await data.token.balanceOf(accounts[1]);
+                
+                balanceOfAcc1After.should.be.bignumber.equal(balanceOfAcc1.plus(dividend[0]));
+            });
           });    
         
   });
