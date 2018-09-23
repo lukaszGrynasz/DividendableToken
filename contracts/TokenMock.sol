@@ -11,6 +11,6 @@ contract TokenMock is DividendableToken {
     constructor(uint _dividendTimeSpan) DividendableToken(_dividendTimeSpan) {
         totalSupply_ = 1000000 * (10 ** 18);
         setBalance(msg.sender, totalSupply_);
-        
     }
-}
+
+} 

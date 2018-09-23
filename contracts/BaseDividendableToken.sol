@@ -1,9 +1,11 @@
 pragma solidity ^0.4.24;
 import 'openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'openzeppelin-solidity/contracts/math/Math.sol';
 
 contract  BaseDividendableToken is StandardToken, Ownable {
 
+    using Math for uint256;
     uint constant public BALANCE_FLAG = 2**128-1;
     uint8 constant public MAX_DIVIDEND_LOOP = 5; 
 
@@ -40,7 +42,7 @@ contract  BaseDividendableToken is StandardToken, Ownable {
         accounts[_owner] = _value|(_lastDividend << 128);
     }
 
-    function getLastDividend(address _owner) public returns(uint){
+    function getLastDividend(address _owner) public view returns(uint){
         return (accounts[_owner]>>128);
     }
 
@@ -59,11 +61,11 @@ contract  BaseDividendableToken is StandardToken, Ownable {
         emit AddDividend(msg.sender, _value);
     }
 
-    function getLastDividendAmount(address _owner) public returns(uint) {
+    function getLastDividendAmount(address _owner) public view returns(uint) {
         return dividends[getLastDividend(_owner)];
     }
 
-    function calculateDividend(address _owner) public returns(uint, uint) {
+    function calculateDividend(address _owner) public view returns(uint, uint) {
         
         uint lastDividend = getLastDividend(_owner);
         
@@ -71,13 +73,11 @@ contract  BaseDividendableToken is StandardToken, Ownable {
                 
             uint _ownerBalance = balanceOf(_owner);
             uint sumOfDividends = 0;
-            uint i = lastDividend;
-            uint loops = dividends.length - lastDividend;
+            uint ends = lastDividend + (dividends.length - lastDividend).min256(MAX_DIVIDEND_LOOP);
             
-            //TODO add limits to 5-10 loops
-            for(; i < loops ; i++)
+            for(uint i = lastDividend; i < ends ; i++)
                 sumOfDividends = sumOfDividends + _ownerBalance * dividends[i] / totalSupply_;
-            return (sumOfDividends, ++i);
+            return (sumOfDividends, i);
         }
 
         return (0,lastDividend) ;

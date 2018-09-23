@@ -13,7 +13,7 @@ const should = require('chai')
        var data = {};
  
           beforeEach(async function () {
-              data.token = await TokenMock.new();
+              data.token = await TokenMock.new(0);
               data.DECIMALS = await data.token.decimals();
               
               //distribute tokens
@@ -24,10 +24,18 @@ const should = require('chai')
         
           });
           
-          describe('Test balance', function () {
-            it('show transfer costn without dividend', async function () {
+          describe('Test costs', function () {
+            it('show transfer cost without dividend', async function () {
                 var tx = await data.token.transfer(accounts[1], ether(20));
                 console.log("Transfer gas used : "+ tx.receipt.gasUsed);
+              
+            });
+
+            it('show transfer cost with dividend', async function () {
+                await data.token.addDividend(ether(10000));
+                var tx = await data.token.transfer(accounts[1], 0);
+
+                console.log("Transfer with dividend gas used : "+ tx.receipt.gasUsed);
               
             });
 
