@@ -4,8 +4,6 @@ import './BaseDividendableToken.sol';
 
 contract DividendableToken is BaseDividendableToken {
 
-    event Debug(uint256 holded,address addr);
-
     event DividendPayed(address to,uint256 amount);
 
     constructor(uint _dividendTimeSpan) BaseDividendableToken(_dividendTimeSpan) public{
@@ -15,7 +13,6 @@ contract DividendableToken is BaseDividendableToken {
         require(address(this) != _to, "Cannot send tokens to token smart contract");
 
         uint senderBalance = balanceOf(msg.sender);
-        emit Debug(senderBalance, msg.sender);
         require(_value <= senderBalance, "Sender balance is less than value");
         require(_to != address(0), "Address to can not be 0x0");
 

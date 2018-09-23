@@ -19,8 +19,6 @@ contract  BaseDividendableToken is StandardToken, Ownable {
 
     event AddDividend( address indexed founder, uint256 valueAdded);
 
-    event DebugBase(uint256 holded,address addr);
-
     uint[] public dividends;
 
     //0-127 balance
