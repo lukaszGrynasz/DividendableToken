@@ -14,7 +14,7 @@ truffle test .\test\transfers.test.js --network local
 truffle test .\test\transfersFrom.test.js --network local
  ```
 
-2. Costs 
+2. Costs ( on Ganache )
     * transfer : 46422 gas
     * transfer with dividend : 51687 gas
     * transferFrom : 44216 gas
