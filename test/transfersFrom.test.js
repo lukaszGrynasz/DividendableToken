@@ -84,6 +84,37 @@ const should = require('chai')
                 
                 balanceOfAcc1After.should.be.bignumber.equal(balanceOfAcc1.plus(dividend[0]));
             });
+
+            it('should distribute dividiend to from address', async function () {
+
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.addDividend(ether(10000));
+
+                var balanceOfAcc = await data.token.balanceOf(accounts[0]);
+                var dividend = await data.token.calculateDividend(accounts[0]);
+           
+                await data.token.transferFrom(accounts[0], accounts[2], ether(1000), {from:accounts[1]});
+
+                var balanceOfAccAfter = await data.token.balanceOf(accounts[0]);
+                
+                balanceOfAccAfter.should.be.bignumber.equal(balanceOfAcc.plus(dividend[0]).minus(ether(1000)));
+            });
+
+            
+            it('should distribute dividiend to to address', async function () {
+
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.addDividend(ether(10000));
+
+                var balanceOfAcc2 = await data.token.balanceOf(accounts[2]);
+                var dividend = await data.token.calculateDividend(accounts[2]);
+           
+                await data.token.transferFrom(accounts[0], accounts[2], ether(1000), {from:accounts[1]});
+
+                var balanceOfAcc2After = await data.token.balanceOf(accounts[2]);
+                
+                balanceOfAcc2After.should.be.bignumber.equal(balanceOfAcc2.plus(dividend[0]).plus(ether(1000)));
+            });
           });    
         
   });

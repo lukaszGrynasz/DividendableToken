@@ -60,7 +60,7 @@ contract DividendableToken is BaseDividendableToken {
         balance = balanceOf(_from);
         allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
         var (dividendForFrom, lastDividendFrom ) = calculateDividend(_from);
-        setAccount(_from,balance.sub(_value).add(dividendForReciever).add(dividendForFrom),lastDividendFrom);
+        setAccount(_from,balance.sub(_value).add(dividendForFrom),lastDividendFrom);
 
         emit Transfer(_from, _to, _value);
 
