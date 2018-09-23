@@ -115,6 +115,52 @@ const should = require('chai')
                 
                 balanceOfAcc2After.should.be.bignumber.equal(balanceOfAcc2.plus(dividend[0]).plus(ether(1000)));
             });
+
+            it('should distribute 5 dividiend to to address', async function () {
+
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+
+                await data.token.approve(accounts[1], ether(1000));
+                
+                await data.token.addDividend(ether(10000));
+
+                var balanceOfAcc2 = await data.token.balanceOf(accounts[2]);
+                var dividend = await data.token.calculateDividend(accounts[2]);
+           
+                await data.token.transferFrom(accounts[0], accounts[2], ether(1000), {from:accounts[1]});
+
+                var balanceOfAcc2After = await data.token.balanceOf(accounts[2]);
+                
+                balanceOfAcc2After.should.be.bignumber.equal(balanceOfAcc2.plus(dividend[0]).plus(ether(1000)));
+            });
+
+            it('should distribute 6 dividiend to to address', async function () {
+
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+                await data.token.approve(accounts[1], ether(1000));
+
+                await data.token.approve(accounts[1], ether(1000));
+                
+                await data.token.addDividend(ether(10000));
+           
+                await data.token.transferFrom(accounts[0], accounts[2], ether(1000), {from:accounts[1]});
+
+                var balanceOfAcc2 = await data.token.balanceOf(accounts[2]);
+                await data.token.transferFrom(accounts[0], accounts[2], ether(0), {from:accounts[1]});
+
+                var dividend = await data.token.calculateDividend(accounts[2]);
+
+                var balanceOfAcc2After = await data.token.balanceOf(accounts[2]);
+                
+                balanceOfAcc2After.should.be.bignumber.equal(balanceOfAcc2.plus(dividend[0]));
+            });
           });    
         
   });
