@@ -9,7 +9,7 @@ const should = require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should();
   
-  contract('PwayDelayedWithdrawWalletFactory', function (accounts) {
+  contract('DividendableToken costs', function (accounts) {
        var data = {};
  
           beforeEach(async function () {

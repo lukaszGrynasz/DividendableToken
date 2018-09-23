@@ -9,7 +9,7 @@ const should = require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should();
   
-  contract('PwayDelayedWithdrawWalletFactory', function (accounts) {
+  contract('DividendableToken transfers', function (accounts) {
        var data = {};
  
           beforeEach(async function () {
@@ -25,11 +25,6 @@ const should = require('chai')
           });
           
           describe('Token tests', function () {
-            it('should show correct balance', async function () {
-
-                var acc1Balance = await data.token.balanceOf(accounts[1]);
-                acc1Balance.should.be.bignumber.equal(ether(100000));
-            });
 
             it('should transfer tokens', async function () {
 
@@ -48,14 +43,7 @@ const should = require('chai')
 
                 accBalance.should.be.bignumber.equal(accBalanceAfter.plus(ether(20)));
             });
-
-            it('should add dividend to token', async function () {
-              
-                await data.token.addDividend(ether(10000));
-                var dividenBalance = await data.token.balanceOf(data.token.address);
-                dividenBalance.should.be.bignumber.equal(ether(10000));
-                
-            });
+        
 
             it('should substract token transfered on dividend', async function () {
               
@@ -66,30 +54,9 @@ const should = require('chai')
                 accBalance.should.be.bignumber.equal(accBalanceAfter.plus(ether(10000)));
                 
             });
+          
 
-            it('should show correct number of dividends', async function () {
-              
-                await data.token.addDividend(ether(10000));
-                await data.token.addDividend(ether(20000));
-                var div = await data.token.dividends(1);
-                div.should.be.bignumber.equal(ether(20000));
-                
-            });
-
-            it('should calculate current dividend', async function () {
-              
-                await data.token.addDividend(ether(10000));
-                //var lastDiv = await data.token.getLastDividend(accounts[0])
-                var totalSupply = await data.token.totalSupply();
-                var balanceOfAcc = await data.token.balanceOf(accounts[0]);
-                //console.log(`Total supply : ${totalSupply.toString(10)} acc balance ${balanceOfAcc.toString(10)}`);
-                
-                var dividend = await data.token.calculateDividend(accounts[0]);
-                dividend[0].should.be.bignumber.equal(balanceOfAcc.mul(ether(10000)).div(totalSupply));
-                
-            });
-
-            it('should distribute diveident after transfer', async function () {
+            it('should distribute dividend after transfer', async function () {
               
                 await data.token.addDividend(ether(10000));
                 var balanceOfAcc = await data.token.balanceOf(accounts[0]);
